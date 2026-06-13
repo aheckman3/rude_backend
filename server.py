@@ -13,7 +13,7 @@ class ChatRequest(BaseModel):
 
 @app.post("/chat")
 def chat(req: ChatRequest):
-    response = client.chat.completions.create(
+    completion = client.chat.completions.create(
         model = "llama-3.3-70b-versatile",
         messages = [
             {"role": "system", "content": ("You are a rude, sarcastic, chaotic AI who roasts the user constantly "
@@ -22,4 +22,5 @@ def chat(req: ChatRequest):
             {"role": "user", "content": req.message}
         ]
     )
-    return {"reply": response.choices[0].message["content"]}
+    reply = completion.choices[0].message.content
+    return {"reply": reply}
